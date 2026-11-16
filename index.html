@@ -4,29 +4,28 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Tarjetas Geométricas RA - ETN 1024</title>
-  <!-- Bibliotecas oficiales A-Frame y AR.js para marcadores -->
+  <!-- Bibliotecas oficiales estables vía jsDelivr -->
   <script src="https://aframe.io"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://jsdelivr.net"></script>
   <style>
     body {
       margin: 0;
       overflow: hidden;
       font-family: Arial, sans-serif;
     }
-    /* Interfaz superior con nombre y botón sin tapar el centro */
     #ui-overlay {
       position: fixed;
       top: 12px;
       left: 12px;
       right: 12px;
-      z-index: 1000;
+      z-index: 9999;
       display: flex;
       justify-content: space-between;
       align-items: center;
       pointer-events: none;
     }
     .badge {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.75);
       color: #ffffff;
       padding: 8px 14px;
       border-radius: 8px;
@@ -48,26 +47,25 @@
 </head>
 <body>
 
-  <!-- Elementos visibles requeridos: Nombre del estudiante y botón de estado -->
+  <!-- Nombre del estudiante y botón de tamaño -->
   <div id="ui-overlay">
-    <div class="badge">Estudiante: Tu Nombre Completo</div>
+    <div class="badge">Estudiante: Silvio</div>
     <button id="btn-tamano" onclick="alternarTamano()">Tamaño: Normal</button>
   </div>
 
-  <!-- Escena de Realidad Aumentada -->
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+  <!-- Escena AR con cámara trasera forzada -->
+  <a-scene embedded arjs="sourceType: webcam; facingMode: environment; debugUIEnabled: false;" vr-mode-ui="enabled: false">
     
-    <!-- Tarjeta A: Marcador Hiro -> Cubo Azul -->
+    <!-- Tarjeta A: Hiro -> Cubo Azul -->
     <a-marker preset="hiro">
       <a-box id="cubo-azul" position="0 0.5 0" scale="1 1 1" color="#0055ff"></a-box>
     </a-marker>
 
-    <!-- Tarjeta B: Marcador Kanji -> Esfera Roja -->
+    <!-- Tarjeta B: Kanji -> Esfera Roja -->
     <a-marker preset="kanji">
       <a-sphere id="esfera-roja" position="0 0.5 0" radius="0.5" scale="1 1 1" color="#ee2222"></a-sphere>
     </a-marker>
 
-    <!-- Cámara de la escena -->
     
   </a-scene>
 
@@ -78,11 +76,9 @@
       ampliado = !ampliado;
       const escala = ampliado ? "1.5 1.5 1.5" : "1 1 1";
       
-      // Aplica la misma escala a ambas figuras
       document.getElementById("cubo-azul").setAttribute("scale", escala);
       document.getElementById("esfera-roja").setAttribute("scale", escala);
       
-      // Actualiza la etiqueta del botón
       const boton = document.getElementById("btn-tamano");
       boton.textContent = ampliado ? "Tamaño: Ampliado" : "Tamaño: Normal";
     }
