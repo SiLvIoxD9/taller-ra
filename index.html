@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Tarjetas Geométricas RA - ETN 1024</title>
+  <!-- Bibliotecas oficiales A-Frame y AR.js para marcadores -->
+  <script src="https://aframe.io"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+    /* Interfaz superior con nombre y botón sin tapar el centro */
+    #ui-overlay {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+    }
+    .badge {
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    #btn-tamano {
+      pointer-events: auto;
+      background: #0066cc;
+      color: #ffffff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Elementos visibles requeridos: Nombre del estudiante y botón de estado -->
+  <div id="ui-overlay">
+    <div class="badge">Estudiante: Tu Nombre Completo</div>
+    <button id="btn-tamano" onclick="alternarTamano()">Tamaño: Normal</button>
+  </div>
+
+  <!-- Escena de Realidad Aumentada -->
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+    
+    <!-- Tarjeta A: Marcador Hiro -> Cubo Azul -->
+    <a-marker preset="hiro">
+      <a-box id="cubo-azul" position="0 0.5 0" scale="1 1 1" color="#0055ff"></a-box>
+    </a-marker>
+
+    <!-- Tarjeta B: Marcador Kanji -> Esfera Roja -->
+    <a-marker preset="kanji">
+      <a-sphere id="esfera-roja" position="0 0.5 0" radius="0.5" scale="1 1 1" color="#ee2222"></a-sphere>
+    </a-marker>
+
+    <!-- Cámara de la escena -->
+    
+  </a-scene>
+
+  <script>
+    let ampliado = false;
+
+    function alternarTamano() {
+      ampliado = !ampliado;
+      const escala = ampliado ? "1.5 1.5 1.5" : "1 1 1";
+      
+      // Aplica la misma escala a ambas figuras
+      document.getElementById("cubo-azul").setAttribute("scale", escala);
+      document.getElementById("esfera-roja").setAttribute("scale", escala);
+      
+      // Actualiza la etiqueta del botón
+      const boton = document.getElementById("btn-tamano");
+      boton.textContent = ampliado ? "Tamaño: Ampliado" : "Tamaño: Normal";
+    }
+  </script>
+</body>
+</html>
